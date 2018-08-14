@@ -17,7 +17,7 @@ make clean
 
 TARGET_LIBRARY_PATH='tools/ios-framework/bin/arm64'
 
-./configure --dest-os=ios --dest-cpu=arm64 --without-chakra-jit --enable-static --with-intl=none --openssl-no-asm
+./configure --dest-os=ios --dest-cpu=arm64 --without-chakra-jit --enable-static --with-intl=none --openssl-no-asm LDFLAGS=-Wc,-fembed-bitcode CFLAGS=-fembed-bitcode
 make -j$(getconf _NPROCESSORS_ONLN)
 
 mkdir -p $TARGET_LIBRARY_PATH
@@ -36,7 +36,7 @@ make clean
 
 TARGET_LIBRARY_PATH='tools/ios-framework/bin/x64'
 
-./configure --dest-os=ios --dest-cpu=x64 --without-chakra-jit --enable-static --with-intl=none --openssl-no-asm
+./configure --dest-os=ios --dest-cpu=x64 --without-chakra-jit --enable-static --with-intl=none --openssl-no-asm LDFLAGS=-Wc,-fembed-bitcode CFLAGS=-fembed-bitcode
 make -j$(getconf _NPROCESSORS_ONLN)
 
 mkdir -p $TARGET_LIBRARY_PATH
@@ -72,8 +72,8 @@ cd ../
 
 NODELIB_PROJECT_PATH='tools/ios-framework'
 
-xcodebuild build -project $NODELIB_PROJECT_PATH/NodeMobile.xcodeproj -target "NodeMobile" -configuration Release -arch arm64 -sdk "iphoneos" SYMROOT=$FRAMEWORK_TARGET_DIR
-xcodebuild build -project $NODELIB_PROJECT_PATH/NodeMobile.xcodeproj -target "NodeMobile" -configuration Release -arch x86_64 -sdk "iphonesimulator" SYMROOT=$FRAMEWORK_TARGET_DIR
+xcodebuild build -project $NODELIB_PROJECT_PATH/NodeMobile.xcodeproj -target "NodeMobile" -configuration Release -arch arm64 -sdk "iphoneos" SYMROOT=$FRAMEWORK_TARGET_DIR OTHER_CFLAGS="-fembed-bitcode" ONLY_ACTIVE_ARCH=NO BITCODE_GENERATION_MODE=bitcode
+xcodebuild build -project $NODELIB_PROJECT_PATH/NodeMobile.xcodeproj -target "NodeMobile" -configuration Release -arch x86_64 -sdk "iphonesimulator" SYMROOT=$FRAMEWORK_TARGET_DIR OTHER_CFLAGS="-fembed-bitcode" ONLY_ACTIVE_ARCH=NO BITCODE_GENERATION_MODE=bitcode
 cp -RL $FRAMEWORK_TARGET_DIR/Release-iphoneos $FRAMEWORK_TARGET_DIR/Release-universal
 lipo -create $FRAMEWORK_TARGET_DIR/Release-iphoneos/NodeMobile.framework/NodeMobile $FRAMEWORK_TARGET_DIR/Release-iphonesimulator/NodeMobile.framework/NodeMobile -output $FRAMEWORK_TARGET_DIR/Release-universal/NodeMobile.framework/NodeMobile
 
