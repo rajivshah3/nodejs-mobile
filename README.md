@@ -6,6 +6,7 @@ This is the main repository for [Node.js for Mobile Apps](https://code.janeasyst
 ## Resources for Newcomers
 * [Website](https://code.janeasystems.com/nodejs-mobile)
 * [Gitter channel](https://gitter.im/nodejs-mobile/community)
+* [Frequently Asked Questions](FAQ.md)
 
 This is the central repository for reporting **all issues** related to the Node.js for Mobile Apps project, including issues pertaining to the React Native and Cordova plugins. 
 
@@ -43,13 +44,13 @@ sudo apt-get install -y build-essential git python
 sudo apt-get install -y curl unzip
 ```
 
-#### Install Android NDK r17b for Linux:
+#### Install Android NDK r18b for Linux:
 Choose a location where you want to install the Android NDK and run:
 ```sh
-curl https://dl.google.com/android/repository/android-ndk-r17b-linux-x86_64.zip -o ndk.zip
+curl https://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip -o ndk.zip
 unzip ndk.zip
 ```
-It will create a `android-ndk-r17b` folder. Save that path for later.
+It will create a `android-ndk-r18b` folder. Save that path for later.
 
 ### Prerequisites to build the Android library on macOS:
 
@@ -61,13 +62,13 @@ As an alternative, installing one of these will install `git`:
 * [Homebrew](https://brew.sh/)
 * [Git-SCM](https://git-scm.com/download/mac)
 
-#### Install Android NDK r17b for macOS:
+#### Install Android NDK r18b for macOS:
 Choose a location where you want to install the Android NDK and run:
 ```sh
-curl https://dl.google.com/android/repository/android-ndk-r17b-darwin-x86_64.zip -o ndk.zip
+curl https://dl.google.com/android/repository/android-ndk-r18b-darwin-x86_64.zip -o ndk.zip
 unzip ndk.zip
 ```
-It will create a `android-ndk-r17b` folder. Save that path for later.
+It will create a `android-ndk-r18b` folder. Save that path for later.
 
 ### Building the Android library on Linux or macOS:
 
@@ -81,11 +82,11 @@ git checkout mobile-master
 
 #### 2a) Using the Android helper script:
 
-The `tools/android_build.sh` script takes as first argument the Android NDK path (in our case is `~/android-ndk-r17b`). The second argument is optional and is the target architecture, which can be one of the following: `arm`, `x86`, `arm64` or `x86_64`. If no target architecture is provided, it will build all available architectures.
+The `tools/android_build.sh` script takes as first argument the Android NDK path (in our case is `~/android-ndk-r18b`). The second argument is optional and is the target architecture, which can be one of the following: `arm`, `x86`, `arm64` or `x86_64`. If no target architecture is provided, it will build all available architectures.
 Run:
 
 ```sh
-./tools/android_build.sh ~/android-ndk-r17b
+./tools/android_build.sh ~/android-ndk-r18b
 ```
 
 When done, each built shared library will be placed in `out_android/$(ARCHITECTURE)/libnode.so`.
@@ -94,7 +95,7 @@ When done, each built shared library will be placed in `out_android/$(ARCHITECTU
 Run the `android-configure` script to configure the build with the path to the downloaded NDK and the desired target architecture.
 
 ```sh
-source ./android-configure ../android-ndk-r17b arm
+source ./android-configure ../android-ndk-r18b arm
 ```
 
 Start the build phase:
