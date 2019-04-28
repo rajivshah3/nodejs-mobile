@@ -70,10 +70,12 @@ public:
     static DWORD const PageSize = 4096;
 #endif
 
+    static size_t const MaxPageCount = SIZE_MAX / PageSize;
+
 #ifdef STACK_ALIGN
     static DWORD const StackAlign = STACK_ALIGN;
 #else
-# if defined(_WIN64)
+# if defined(TARGET_64)
     static DWORD const StackAlign = 16;
 # elif defined(_M_ARM)
     static DWORD const StackAlign = 8;
@@ -135,6 +137,9 @@ public:
     static bool ShouldQCMoreFrequently();
     static bool SupportsOnlyMultiThreadedCOM();
     static bool IsLowMemoryDevice();
+#if defined(__IOS__) && defined(_M_ARM64)
+    static size_t GetIOSAppMemoryLimit();
+#endif
 };
 
 #if defined(__IOS__)&&defined(_M_ARM64)

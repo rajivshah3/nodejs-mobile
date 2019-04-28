@@ -5,8 +5,23 @@ prefix sequential
 # sample-test                       : PASS,FLAKY
 
 [true] # This section applies to all platforms
+# This test will be flaky until https://github.com/libuv/libuv/pull/1742 lands
+# on Node.js.
+test-fs-readfile-tostring-fail: PASS, FLAKY
+# https://github.com/nodejs/node/issues/23066
+test-gc-http-client-timeout: PASS, FLAKY
+# https://github.com/nodejs/node/issues/22336
+test-gc-http-client: PASS,FLAKY
+# https://github.com/nodejs/node/issues/23067
+test-gc-net-timeout: PASS,FLAKY
+# https://github.com/nodejs/node/issues/23089
+test-gc-http-client-onerror: PASS,FLAKY
+# https://github.com/nodejs/node/issues/23219
+test-gc-http-client-connaborted: PASS,FLAKY
 
 [$system==win32]
+# https://github.com/nodejs/node/issues/22327
+test-http2-large-file: PASS, FLAKY
 
 [$system==linux]
 
@@ -19,12 +34,28 @@ prefix sequential
 [$system==aix]
 
 [$jsEngine==chakracore]
-test-vm-timeout-rethrow : PASS,FLAKY
-test-benchmark-child-process : PASS,FLAKY
+# These tests are failing for Node-Chakracore and should eventually be fixed
 test-async-wrap-getasyncid : SKIP
+test-inspector-async-call-stack-abort : SKIP
+test-inspector-async-hook-setup-at-inspect-brk : SKIP
+test-inspector-async-stack-traces-promise-then : SKIP
+test-inspector-async-stack-traces-set-interval : SKIP
+test-inspector-bindings : SKIP
+test-inspector-break-when-eval : SKIP
+test-inspector-contexts : SKIP
+test-inspector-scriptparsed-context : SKIP
+test-inspector-stop-profile-after-done : SKIP
+test-inspector-resource-name-to-url : SKIP
 
-[$jsEngine==chakracore && $system==linux]
-test-child-process-pass-fd : PASS,FLAKY
+# These tests require worker not implemented by node-chakracore
+test-benchmark-worker : SKIP
+
+[$jsEngine==chakracore && $system==win32]
+# This test can fail depending on the ports that other processes are using
+test-inspector-port-cluster : PASS, FLAKY
+
+# This test seems to fail based on machine load or configuration
+test-net-bytes-per-incoming-chunk-overhead : PASS, FLAKY
 
 [$system==android]
 #
@@ -33,11 +64,14 @@ test-child-process-pass-fd : PASS,FLAKY
 test-benchmark-* : SKIP
 test-child-* : SKIP
 test-cluster-inspect-brk : SKIP
+test-cluster-send-handle-large-payload : SKIP
 test-debug-prompt : SKIP
 test-debugger-debug-brk : SKIP
 test-debugger-repeat-last : SKIP
 test-deprecation-flags : SKIP
 test-dgram-bind-shared-ports : SKIP
+test-fs-stat-sync-overflow : SKIP
+test-fs-watch-system-limit : SKIP
 test-init : SKIP
 test-module-loading : SKIP
 test-net-GH-5504 : SKIP
@@ -51,6 +85,42 @@ test-repl-timeout-throw : SKIP
 test-stream2-stderr-sync : SKIP
 test-util-debug : SKIP
 test-vm-timeout-rethrow : SKIP
+#
+# Test that tries to allocate 4294968296 bytes for ArrayBuffer
+#
+test-buffer-creation-regression : SKIP
+#
+# Tests that require the inspector, not included in the build
+#
+test-inspector : SKIP
+test-inspector-async-call-stack : SKIP
+test-inspector-async-call-stack-abort : SKIP
+test-inspector-async-hook-setup-at-inspect-brk : SKIP
+test-inspector-async-hook-setup-at-signal : SKIP
+test-inspector-async-stack-traces-promise-then : SKIP
+test-inspector-async-stack-traces-set-interval : SKIP
+test-inspector-bindings : SKIP
+test-inspector-break-e : SKIP
+test-inspector-break-when-eval : SKIP
+test-inspector-console : SKIP
+test-inspector-contexts : SKIP
+test-inspector-debug-brk-flag : SKIP
+test-inspector-debug-end : SKIP
+test-inspector-enabled : SKIP
+test-inspector-exception : SKIP
+test-inspector-invalid-args : SKIP
+test-inspector-ip-detection : SKIP
+test-inspector-module : SKIP
+test-inspector-not-blocked-on-idle : SKIP
+test-inspector-open : SKIP
+test-inspector-overwrite-config : SKIP
+test-inspector-port-cluster : SKIP
+test-inspector-port-zero : SKIP
+test-inspector-resource-name-to-url : SKIP
+test-inspector-runtime-evaluate-with-timeout : SKIP
+test-inspector-scriptparsed-context : SKIP
+test-inspector-stop-profile-after-done : SKIP
+test-inspector-stress-http : SKIP
 
 [$system==ios]
 #
@@ -59,13 +129,21 @@ test-vm-timeout-rethrow : SKIP
 #
 test-benchmark-buffer : SKIP
 test-benchmark-child-process: SKIP
+test-benchmark-dgram : SKIP
 test-benchmark-http : SKIP
 test-benchmark-net : SKIP
+test-benchmark-tls : SKIP
+test-benchmark-path : SKIP
+test-child-process-exit : SKIP
 test-child-process-fork-getconnections : SKIP
 test-child-process-pass-fd : SKIP
+test-cluster-send-handle-large-payload : SKIP
+test-fs-stat-sync-overflow : SKIP
 test-init : SKIP
+test-inspector-stops-no-file : SKIP
 test-net-GH-5504 : SKIP
 test-net-listen-shared-ports : SKIP
+test-net-response-size : SKIP
 test-next-tick-error-spin : SKIP
 test-process-warnings : SKIP
 test-regress-GH-1697 : SKIP
@@ -87,9 +165,36 @@ test-dgram-bind-shared-ports : SKIP
 #
 test-fs-watch : SKIP #signal SIGABRT
 #
+# FAILING test that tries to allocate 4294968296 bytes for ArrayBuffer
+#
+test-buffer-creation-regression : SKIP
+#
 # Tests that require the inspector, not included in the build
 #
 test-cluster-inspect-brk : SKIP
 test-debug-prompt : SKIP
 test-debugger-debug-brk : SKIP
 test-debugger-repeat-last : SKIP
+test-inspector : SKIP
+test-inspector-async-call-stack : SKIP
+test-inspector-async-hook-setup-at-signal : SKIP
+test-inspector-break-e : SKIP
+test-inspector-console : SKIP
+test-inspector-debug-brk-flag : SKIP
+test-inspector-debug-end : SKIP
+test-inspector-enabled : SKIP
+test-inspector-exception : SKIP
+test-inspector-invalid-args : SKIP
+test-inspector-ip-detection : SKIP
+test-inspector-module : SKIP
+test-inspector-not-blocked-on-idle : SKIP
+test-inspector-open : SKIP
+test-inspector-overwrite-config : SKIP
+test-inspector-port-cluster : SKIP
+test-inspector-port-zero : SKIP
+test-inspector-runtime-evaluate-with-timeout : SKIP
+test-inspector-stress-http : SKIP
+#
+# Tests that run on Linux only
+#
+test-fs-watch-system-limit : SKIP

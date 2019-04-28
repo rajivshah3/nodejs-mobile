@@ -5,4 +5,3 @@ branches:
  - mobile-master-bitcode
 script:
 - ./tools/ios_framework_prepare.sh
-

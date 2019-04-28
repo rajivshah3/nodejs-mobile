@@ -133,6 +133,14 @@ Then, use it to install `CMake`:
 brew install cmake
 ```
 
+### Building the iOS library using CocoaPods:
+
+Add this to your `Podfile`:
+
+```ruby
+pod 'NodeMobile', :git => 'https://github.com/janeasystems/nodejs-mobile.git'
+```
+
 ### Building the iOS .framework library on macOS:
 
 #### 1) Clone this repo and check out the `mobile-master` branch:
@@ -163,4 +171,3 @@ Please see the [TESTING.md](https://github.com/janeasystems/nodejs-mobile/blob/m
 
 ## Contributing
 Please see the [CONTRIBUTING](https://github.com/janeasystems/nodejs-mobile/blob/mobile-master/doc_mobile/CONTRIBUTING.md) file in the `doc_mobile` folder in this source distribution.
-
